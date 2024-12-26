@@ -1,0 +1,106 @@
+﻿@model Bio_Tech_Park.Models.notifile
+
+@{
+    ViewBag.Title = "NotiFile";
+    Layout = "~/Views/Shared/adminzone.cshtml";
+}
+
+<h2>Announcement With File </h2>
+
+@using (Html.BeginForm("AddNotiFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @if (ViewBag.Msg != null)
+    {
+        <div class="alert alert-primary" role="alert">
+            @ViewBag.Msg
+        </div>
+    }
+   
+    <div class="row bg-light shadow p-4">
+        <div class="col-md-6">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <p>Announcement</p>
+                @Html.EditorFor(model => model.notification, new { htmlAttributes = new { @class = "form-control", style = "hieght:55px; border-radius:0px;", placeholder = "Enter Your Announcement" } })
+                @Html.ValidationMessageFor(model => model.notification, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="col-sm-6 ">
+            <p>Announcement File</p>
+            <div class="form-group border p-1">
+
+                <input type="file" name="file" />
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group mt-4">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add Announcement" class="btn" style="background-color:green; color:white; border:0px; border-radius:0px;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+}
+<div class="row">
+    <div class="col-md-12 p-3 mt-4 shadow" style="background-color:white; ">
+
+        <table id="example" class="table table-bordered " border="1" style="width:100%;">
+            <thead>
+
+                <tr class="text-dark">
+                    <th class="text-start">S.R No</th>
+                    <th class="text-center">Announcement</th>
+                    <th class="text-center">Announcement File</th>
+                    <th class="text-center">Action</th>
+
+                </tr>
+
+
+
+            </thead>
+            <tbody>
+                @{
+                    var a = 1;
+                }
+
+               @foreach(var item in ViewBag.NotiFile)
+            {
+
+            
+                
+                    <tr class="text-center">
+
+                        <td class="text-dark text-center">@a</td>
+                        <td class="text-dark">@item.notification</td>
+                        <td class="text-dark"><a href="~/NotificationFile/@item.file" target="_blank">Click Here</a></td>
+                        <td class="text-dark">
+                            <a href="~/Admin/DeleteFile/?id=@item.Id"><input type="button" value="Delete" class="btn btn-danger" /></a>
+                            <button class="btn btn-primary">Edit</button>
+
+                        </td>
+
+                        @{
+                            a++;
+                        }
+                    </tr>
+
+                            }
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
